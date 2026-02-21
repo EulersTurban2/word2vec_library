@@ -1,5 +1,8 @@
 # shorthand functions for helping the model work
+import pickle
 import numpy as np
+
+from pathlib import Path
 
 # vocabulary building functions
 def build_vocab(tokens:list):
@@ -19,6 +22,15 @@ def search_by_index(idx2word:dict, id:int):
 
 def search_by_word(word2idx:dict, id: int):
     return word2idx[id]
+
+# saving the dictionaries for later loading
+def save_vocab(path:Path, filename: str, word2idx :dict, idx2word:dict):
+    with open(path / Path(filename),"wb") as f:
+        pickle.dump((word2idx,idx2word),f)
+
+def load_vocab(path:Path, filename: str):
+    with open(path / Path(filename),"rb") as f:
+        return pickle.load(f)
 
 # activation functions
 def one_sigmoid(x:np.float128,boundary:int = 20):

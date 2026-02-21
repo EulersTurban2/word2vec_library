@@ -1,6 +1,7 @@
 import utils as ut
 import numpy as np
 
+from sal import SAL
 from pathlib import Path
 from utils import NegativeSampler
 from model import SkipGram_Model, CBOW_Model
@@ -98,3 +99,5 @@ if __name__ == '__main__':
     word2idx, idx2word, vocab_size = ut.build_vocab(tokens=words)
     model = SkipGram_Model(vocab_size=vocab_size)
     train_and_validate(tokens=words,word2idx=word2idx,model=model)
+    sal = SAL(model=model,word2idx=word2idx,idx2word=idx2word)
+    sal.save('/mnt2/jetbrains_hallucination/models')

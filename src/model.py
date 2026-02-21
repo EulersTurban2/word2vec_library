@@ -3,9 +3,6 @@ import numpy as np
 from pathlib import Path
 from utils import NegativeSampler
 
-# imported for testing purposes
-import preprocessing as pre
-
 
 class SkipGram_Model:
     def __init__(self, vocab_size: int, embedded_size: int = 300):
@@ -23,6 +20,22 @@ class SkipGram_Model:
 
         scores = np.dot(v_w,u_vectors) # (1,all_indices = 1 + len(negative_indices))
         return v_w, u_vectors, scores, all_indices
+
+    def write_file(self, path: Path, filename: str):
+        np.savez(path / Path(filename), W_in = self.W_in, W_out = self.W_out, vocab_size = self.vocab_size, embedded_size = self.embedded_size)
+
+    @classmethod
+    def read_file(self, path:Path, filename:str):
+        data = np.load(path / Path(filename), allow_pickle=False)
+    
+        vocab_size = int(data["vocab_size"])
+        embedded_size = int(data["embedded_size"])
+        
+        model = SkipGram_Model(vocab_size, embedded_size)
+        model.W_in = data["W_in"]
+        model.W_out = data["W_out"]
+        
+        return model
 
 
 class CBOW_Model:
