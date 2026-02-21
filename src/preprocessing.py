@@ -3,6 +3,8 @@ import re
 import numpy as np
 
 from pathlib import Path
+from utils import build_vocab, search_by_index
+from utils import NegativeSampler
 
 
 def build_regex_machine(regex:str) -> re.Pattern:
@@ -17,7 +19,7 @@ def normalize_line(line:str, regex_machine: re.Pattern, replacment_str):
 
 def preprocess_list(path:Path, filename:str) -> list[str]:
     
-    punc_regex = r'[()._?!,;:-]+'
+    punc_regex = r'[()*._?!,;:-]+'
     punc_re_machine = build_regex_machine(regex=punc_regex)
     quote_regex = r"`\s*(([^']|\w*'\w)*)'"
     quote_re_machine = build_regex_machine(regex=quote_regex)
@@ -73,7 +75,6 @@ def get_training_batches(tokens : list,word2idx : dict, window_size:int = 2):
 if __name__ == '__main__':
     p = Path('/mnt2/jetbrains_hallucination/data/')
     filename = 'alice_in_wonderland.txt'
-    lines = preprocess_list(p,filename)
-    
-
+    words = preprocess_list(p,filename)
+    word2idx, idx2word, vocab_size = build_vocab(words)
     
