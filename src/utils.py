@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 
 from pathlib import Path
+from collections import Counter
 
 # vocabulary building functions
 def build_vocab(tokens:list):
@@ -22,6 +23,27 @@ def search_by_index(idx2word:dict, id:int):
 
 def search_by_word(word2idx:dict, id: int):
     return word2idx[id]
+
+def compute_word_frequencies(tokens:list) -> dict[str,float]:
+    counter = Counter(tokens)
+    total = len(counter)
+    return {word: count / total for word, count in counter.items()}
+
+# subsampling according to frequencies
+def subsample_tokens(tokens: list[str], freqs: dict[str, float], t: float = 1e-4) -> list[str]:
+    subsampled = []
+    
+    for word in tokens:
+        f = freqs[word]
+        
+        # Mikolov formula
+        prob_keep = np.sqrt(t / f)
+        prob_keep = min(1.0, prob_keep)
+        
+        if np.random.rand() < prob_keep:
+            subsampled.append(word)
+    
+    return subsampled
 
 # saving the dictionaries for later loading
 def save_vocab(path:Path, filename: str, word2idx :dict, idx2word:dict):

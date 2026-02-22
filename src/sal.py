@@ -1,8 +1,8 @@
 import numpy as np
-import utils as ut
+import src.utils as ut
 
 from pathlib import Path
-from model import SkipGram_Model, CBOW_Model
+from src.model import SkipGram_Model, CBOW_Model
 
 class SAL:
     def __init__(self, model:SkipGram_Model|CBOW_Model, word2idx:dict, idx2word:dict):

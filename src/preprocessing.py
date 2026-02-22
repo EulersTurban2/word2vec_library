@@ -3,8 +3,8 @@ import re
 import numpy as np
 
 from pathlib import Path
-from utils import build_vocab, search_by_index
-from utils import NegativeSampler
+from src.utils import build_vocab, search_by_index
+from src.utils import NegativeSampler
 
 
 def build_regex_machine(regex:str) -> re.Pattern:
