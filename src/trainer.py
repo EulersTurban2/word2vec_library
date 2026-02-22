@@ -1,12 +1,3 @@
-import os
-path_splitted = __file__.split(os.sep)
-master_dir = ''
-for entry in path_splitted:
-    if entry == 'src':
-        break    
-    master_dir = master_dir + entry + os.sep
-os.chdir(master_dir)
-
 import numpy as np
 import src.utils as ut
 
